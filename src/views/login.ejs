@@ -1,0 +1,2 @@
+<!doctype html><html lang="pt-br"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/style.css"><title>Login</title></head>
+<body class="center"><form class="card auth" method="post" action="/login"><h1>WhatsApp Atendimento</h1><p>Entre para acessar o painel.</p><% if (error) { %><div class="error"><%= error %></div><% } %><label>E-mail<input type="email" name="email" required></label><label>Senha<input type="password" name="password" required></label><button>Entrar</button></form></body></html>
