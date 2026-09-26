@@ -23,6 +23,17 @@ router.get('/webhook', (req, res) => {
 });
 
 router.post('/webhook', async (req, res) => {
+  // Diagnóstico temporário: não registrar credenciais nem cabeçalhos.
+  console.log('🔥 WEBHOOK RECEBIDO DA META', new Date().toISOString());
+  console.log('BODY:', JSON.stringify(req.body, (key, value) => {
+    if (/token|secret|authorization|password/i.test(key)) return '[REDACTED]';
+    if (typeof value !== 'string') return value;
+    for (const name of ['META_APP_SECRET', 'META_VERIFY_TOKEN', 'META_ACCESS_TOKEN']) {
+      if (process.env[name]) value = value.split(process.env[name]).join('[REDACTED]');
+    }
+    return value.replace(/Bearer\s+\S+/gi, 'Bearer [REDACTED]');
+  }));
+
   const appSecret = process.env.META_APP_SECRET;
   if (typeof appSecret !== 'string' || !appSecret.trim()) {
     return res.sendStatus(503);
